@@ -1,0 +1,68 @@
+  <div class="container">
+	  	<div class="page-header">
+	  		<center><h1>{{DatoTest}}</h1> </center>     
+	  	</div>	           
+	  	<div class="CajaInicio animated pulse">
+	  		<h1>Listado de Informes</h1>
+
+	  		 <input type="search" placeholder="Buscar.." ng-model="mifiltro" class="buscar"></input>
+	  		<table class='table table-hover table-responsive' id="ListadoLocales">
+	  			<thead>
+	  				<tr>
+
+	  					<th>  Nombre     </th>
+	  					<th >  Localidad     </th>
+	  					<th class="centrar">  Direccion     </th>
+	  					<th class="centrar">  Empleado     </th> 
+	  					<th class="centrar">  P.1     </th> 
+	  					<th class="centrar">  P.2   </th> 
+	  					<th class="centrar">  P.3    </th> 
+	  					<th class="centrar">  P.4   </th> 
+	  					<th class="centrar">  Porcentaje   </th> 
+	  					<th class="centrar">  fecha   </th> 
+	  					<th ng-if="esVisible.admin" class="centrar">  Borrar   </th> 
+	  					<!-- <th  class="centrar">  Ver   </th> -->	
+	  					
+	  				</tr> 
+	  			</thead>
+	  			<tr ng-repeat="informe in ListadoInformes| filter:mifiltro as resultado">
+
+
+
+	  				<td>{{informe.nombre}}</td>
+	  				<td >{{informe.localidad}}</td>
+	  				<td class="centrar"> {{informe.direccion}}</td>
+	  				<td class="centrar">{{informe.empleado}}</td>
+	  				<td class="centrar">{{informe.puno}}</td>
+	  				<td class="centrar">{{informe.pdos}}</td>
+	  				<td class="centrar">{{informe.ptres}}</td>
+	  				<td class="centrar">{{informe.pcuatro}}</td>
+	  				<td class="centrar">{{informe.porcentaje}}%</td>
+	  				<td class="centrar">{{informe.fecha}}</td>
+
+
+	  				<!-- <td ng-if="esVisible.adminClient" class="centrar"><button class='btn btn-warning' name='Modificar' ui-sref="modificarLocal({id:local.id, nombre:local.nombre, localidad:local.localidad, mes:local.mes, anio:local.anio, porcentaje:local.porcentaje, empleado:local.empleado, puno:local.puno, pdos:local.pdos, ptres:local.ptres, pcuatro:local.pcuatro})"><span class='glyphicon glyphicon-edit'>&nbsp;</span>Formulario</button></td> -->
+
+	  				<td ng-if="esVisible.admin" class="centrar"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(informe.id)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+
+	  				<!-- <td><button class='btn btn-warning' name='Modificar' ng-click="Modificar()"><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td> -->
+
+
+
+	  			</tr>
+
+
+	  			<tr ng-if="resultado.length == 0">
+
+	  				<td></td>							
+	  				<td>No existen productos con esos datos..</td>
+	  				<td></td>
+	  				<td></td>
+	  				<td></td>										
+	  				<td></td>
+
+	  			</tr>
+	  		</table>
+	  	</div>				
+	  </div>
+	</div>

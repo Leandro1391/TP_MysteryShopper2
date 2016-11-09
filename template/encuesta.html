@@ -1,0 +1,56 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>{{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1>ENCUESTA</h1>
+
+			<!-- esto es para el administrador -->
+
+			<form id="FormIngreso"  enctype="multipart/form-data" >
+				
+				<input type="text" name="empleado" ng-model="local.empleado" placeholder="nombre del empleado" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<label>1. ¿se presentó diciendo: "buenos días, buenas tardes o buenas noches"?</label>
+				<br>
+
+				<input type="radio" name="respuestaUno" ng-model="local.puno">SI 
+				<input type="radio" name="respuestaUno" ng-model="local.puno">NO
+
+				<br>
+
+				<label>2. ¿Tenía puesto el credencial de personal?</label>
+				<br>
+
+				<input type="radio" name="respuestaDos" ng-model="local.pdos">SI 
+				<input type="radio" name="respuestaDos" ng-model="local.pdos">NO
+
+				<br>
+
+				<label>3. ¿Le ofreció alguna promoción?</label>
+				<br>
+
+				<input type="radio" name="respuestaTres" ng-model="local.ptres">SI 
+				<input type="radio" name="respuestaTres" ng-model="local.ptres">NO
+
+				<br>
+
+				<label>4. ¿Al finalizar la compra se despidió diciendo: "Muchas gracias por su compra"?</label>
+				<br>
+
+				<input type="radio" name="respuestaCuatro" ng-model="local.pcuatro">SI 
+				<input type="radio" name="respuestaCuatro" ng-model="local.pcuatro">NO
+
+				<input type="text" name="porcentaje" ng-model="local.porcentaje" placeholder="ingrese porcentaje" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+				
+				<a class="btn btn-primary" name="guardar" ng-click="Guardar()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a>
+					
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+				</div>
+
+			</form>
+	</div>
+	</div>

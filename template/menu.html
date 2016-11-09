@@ -1,0 +1,48 @@
+<div class="container">
+				<div class="page-header">
+					<center><h1>Mystery Shopper</h1> </center>     
+				</div>
+				<div class="CajaInicio animated bounceInRight">
+									<!-- <h1>PRODUCTOS</h1> -->
+								
+									<form id="FormIngreso">
+		 										
+
+											    <button ui-sref="grillaLocal" ng-if="esVisible.admin || esVisible.user" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Locales</h4>
+											    </button>
+
+												<button ui-sref="grillaUsuario" ng-if="esVisible.admin" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Usuarios</h4>
+											    </button>
+
+											    <button ui-sref="altaLocal" ng-if="esVisible.admin" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Alta de Local</h4>
+											    </button>
+
+											    <button ui-sref="altaUsuario" ng-if="esVisible.admin" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Alta de Usuario</h4>
+											    </button>
+
+
+											    <div style="color:black">----------------------------------------------------------------------------------------------</div>
+
+
+											     <button ui-sref="grillaInforme" ng-if="esVisible.admin || esVisible.cliente" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Infromes</h4>
+											    </button>
+
+											    <button ui-sref="reporte" ng-if="esVisible.admin || esVisible.cliente" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Reportes</h4>
+											    </button>
+
+											    <div style="color:black" ng-if="esVisible.admin || esVisible.cliente">----------------------------------------------------------------------------------------------</div>
+											
+											  
+											    <button ng-click="Logout()" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Cerrar Sesión</h4>
+											    </button>
+											
+									</form>
+				</div>
+		</div>

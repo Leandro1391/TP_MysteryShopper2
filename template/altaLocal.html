@@ -1,0 +1,71 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>{{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1>ALTA</h1>
+
+			<!-- esto es para el administrador -->
+
+			<form id="FormIngreso"  enctype="multipart/form-data" >
+				
+				<input type="text" name="nombre" ng-model="local.nombre" placeholder="ingrese nombre del local" value=""/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="localidad" ng-model="local.localidad" placeholder="ingrese la localidad" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="direccion" ng-model="local.direccion" placeholder="direccion" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="gerente" ng-model="local.gerente" placeholder="nombre del gerente" value="" ng-if="esVisible.admin || esVisible.cliente" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="empleado" ng-model="local.empleado" placeholder="nombre del empleado" value="" ng-if="esVisible.user" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<label ng-if="esVisible.user">1. ¿se presentó diciendo: "buenos días, buenas tardes o buenas noches"?</label>
+				<br>
+
+				<input type="radio" name="respuestaUno" ng-model="local.puno" value="si" ng-if="esVisible.user"><label ng-if="esVisible.user" for="si">SI</label> 
+				<input type="radio" name="respuestaUno" ng-model="local.puno" value="no" ng-if="esVisible.user"><label ng-if="esVisible.user" for="no">NO</label>
+
+				<br ng-if="esVisible.user">
+
+				<label ng-if="esVisible.user">2. ¿Tenía puesto el credencial de personal?</label>
+				<br>
+
+				<input type="radio" name="respuestaDos" ng-model="local.pdos" value="si" ng-if="esVisible.user"><label ng-if="esVisible.user" for="si">SI</label> 
+				<input type="radio" name="respuestaDos" ng-model="local.pdos" value="no" ng-if="esVisible.user"><label ng-if="esVisible.user" for="no">NO</label>
+
+				<br ng-if="esVisible.user">
+
+				<label ng-if="esVisible.user">3. ¿Le ofreció alguna promoción?</label>
+				<br ng-if="esVisible.user">
+
+				<input type="radio" name="respuestaTres" ng-model="local.ptres" value="si" ng-if="esVisible.user"><label ng-if="esVisible.user" for="si">SI</label>  
+				<input type="radio" name="respuestaTres" ng-model="local.ptres" value="no" ng-if="esVisible.user"><label ng-if="esVisible.user" for="no">NO</label>
+
+				<br ng-if="esVisible.user">
+
+				<label ng-if="esVisible.user">4. ¿Al finalizar la compra se despidió diciendo: "Muchas gracias por su compra"?</label>
+				<br>
+				<input type="radio" name="respuestaCuatro" ng-model="local.pcuatro" value="si" ng-if="esVisible.user"><label ng-if="esVisible.user" for="si">SI</label>  
+				<input type="radio" name="respuestaCuatro" ng-model="local.pcuatro" value="no" ng-if="esVisible.user"><label ng-if="esVisible.user" for="no">NO</label>
+				<br ng-if="esVisible.user">
+
+				<!-- <input type="text" name="fecha" ng-model="local.fecha" placeholder="ingrese fecha" ng-if="esVisible.user" value=""  /> --> 
+				<!-- <span id="lblDni">{{local.fecha}}</span> -->
+				
+				<!-- <input type="text" name="porcentaje" ng-model="local.porcentaje" placeholder="porcentaje" ng-if="esVisible.user" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80"></span> -->
+
+				<a class="btn btn-primary" name="guardar" ng-click="Guardar()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a>
+					
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+				</div>
+
+			</form>
+	</div>
+	</div>

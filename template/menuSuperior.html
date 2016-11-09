@@ -1,0 +1,49 @@
+      <ul class="navbar navbar-default navbar-fixed-top navbar-inverse">
+		         <li  class="btn btn-info animated bounceInLeft">
+		         	<a ui-sref="menu">
+		         		 <span class="glyphicon glyphicon-list-alt">&nbsp;</span>
+		         		 Inicio 
+		         	</a>
+		         </li>
+		         <li class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin">
+		         	<a ui-sref="altaUsuario" ng-if="esVisible.admin">
+		         		<span class="glyphicon glyphicon-plus-sign">&nbsp;</span>
+		         		Alta Usuarios
+		         	</a>
+		         <li  class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin">
+		         	<a ui-sref="altaLocal" ng-if="esVisible.admin"> 
+		         		<span class="glyphicon glyphicon-plus-sign" >&nbsp;</span>
+		         			Alta Local</a>
+		         		</li>
+		         </li>
+		         <li  class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin">
+		         	<a ui-sref="grillaUsuario" ng-if="esVisible.admin"> 
+		         		<span class="glyphicon glyphicon-th" >&nbsp;</span>
+		         			Usuarios</a>
+		         		</li>
+		         <li  class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin || esVisible.user">
+		         	<a ui-sref="grillaLocal" g-if="esVisible.admin || esVisible.user"> 
+		         		<span class="glyphicon glyphicon-th" >&nbsp;</span>
+		         			Locales</a>
+		         		</li>
+		         <li  class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin || esVisible.cliente">
+		         	<a ui-sref="grillaInforme" ng-if="esVisible || esVisible.cliente"> 
+		         		<span class="glyphicon glyphicon-th-list" >&nbsp;</span>
+		         			Informes</a>
+		         		</li>
+
+		         <li  class="btn btn-info animated bounceInLeft" ng-if="esVisible.admin || esVisible.cliente">
+		         	<a ui-sref="reporte" ng-if="esVisible || esVisible.cliente"> 
+		         		<span class="glyphicon glyphicon-th-list" >&nbsp;</span>
+		         			Reporte</a>
+		         		</li>
+		         <!-- <li  class="btn btn-info animated bounceInLeft">
+		         	<a ng-click="Logout()"> 
+		         		<span class="glyphicon glyphicon-off" >&nbsp;</span>
+		         			Cerrar Sesión</a>
+		         		</li> -->
+		         <li class="nav navbar-nav navbar-right btn btn-success">
+		         		<a  class="animated bounceInRight" ui-sref="perfil">Bienvenido: {{usuario.nombre}} &nbsp;<img  class="fotoGrilla" ng-src="imagenes/{{usuario.foto}}" alt="imagen"></a>
+		         </li>
+		         	
+      </ul>

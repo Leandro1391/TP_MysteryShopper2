@@ -1,0 +1,40 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>{{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1>ALTA</h1>
+
+			<!-- esto es para el administrador -->
+
+			<form id="FormIngreso"  enctype="multipart/form-data" >
+				
+				<input type="text" name="nombre" ng-model="local.nombre" placeholder="ingrese nombre del local" value=""/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="localidad" ng-model="local.localidad" placeholder="ingrese la localidad" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<!-- <input type="text" name="direccion" ng-model="local.direccion" placeholder="direccion" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span> -->
+
+				<!-- <input type="text" name="empleado" ng-model="local.empleado" placeholder="nombre del empleado" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span> -->
+
+				<input type="text" name="mes" ng-model="local.mes" placeholder="ingrese mes" value=""  /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="anio" ng-model="local.anio" placeholder="ingrese anio" value=""  /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<!-- <input type="text" name="porcentaje" ng-model="local.porcentaje" placeholder="ingrese porcentaje" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span> -->
+				
+				<a class="btn btn-primary" name="guardar" ng-click="Guardar()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a>
+					
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+				</div>
+
+			</form>
+	</div>
+	</div>

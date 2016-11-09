@@ -1,0 +1,28 @@
+<div class="container">
+				<div class="page-header">
+					<center><h1>Mystery Shopper</h1> </center>     
+				</div>
+				<div class="CajaInicio animated bounceInRight">
+									<h1>Reportes</h1>
+								
+									<form id="FormIngreso">
+		 										
+
+											    <button ng-click="GenerarPDF()" ng-if="esVisible.admin || esVisible.user" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">PDF</h4>
+											    </button>
+
+												<button ng-click="GenerarExcel()" ng-if="esVisible.admin" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">EXCEL</h4>
+											    </button>
+
+											    -------------------------------------------------------------------------------------
+
+											    <button ui-sref="graficoEstadistico" ng-if="esVisible.admin" class="list-group-item  list-group-item list-group-item-info">
+											      <h4 class="list-group-item-heading">Gráfico Estadístico</h4>
+											    </button>
+
+											
+									</form>
+				</div>
+		</div>

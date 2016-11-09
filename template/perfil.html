@@ -1,0 +1,24 @@
+<div class="container">
+      <div class="page-header">
+        <center><h1>{{DatoTest}}</h1> </center>     
+      </div>
+
+    <div class="CajaInicio animated bounceInRight">
+      <center> <h1>{{DatoTest}}</h1>   </center>     
+    
+
+      <form id="FormIngreso"  enctype="multipart/form-data" >
+            <label>Correo:          {{usuario.correo}}</label><br>
+            <label>Nombre:          {{usuario.nombre}}</label><br>
+            <label>Tipo de Usuario: {{usuario.tipo}}</label><br>
+            
+
+            <button ng-click="Logout()" class="btn btn-success btn-sm">
+
+                    <h4 class="list-group-item-heading">Cerrar Sesión</h4>
+
+            </button>
+
+      </form>
+      </div>
+</div>

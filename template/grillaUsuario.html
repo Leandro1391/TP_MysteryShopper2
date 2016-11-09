@@ -1,0 +1,55 @@
+  <div class="container">
+	  	<div class="page-header">
+	  		<center><h1>{{DatoTest}}</h1> </center>     
+	  	</div>	           
+	  	<div class="CajaInicio animated pulse">
+	  		<h1>Listado de usuarios</h1>
+
+	  		 <input type="search" placeholder="Buscar Usuario..." ng-model="mifiltro" class="buscar"></input>
+	  		<table class='table table-hover table-responsive' id="listaUsuarios">
+	  			<thead>
+	  				<tr>
+
+						<th>  Correo     </th>
+						<th>  Nombre     </th>
+						<th>  Clave     </th>
+						<th>  Tipo       </th>
+	  					<th>  Foto   </th>				
+						<th>  BORRAR     </th>
+	  					<th>  MODIFICAR     </th>
+
+	  				</tr> 
+	  			</thead>
+	  			<tr ng-repeat="usuario in ListadoUsuarios | filter:mifiltro as resultado">
+
+
+
+	  				<td>{{usuario.correo}}</td>
+	  				<td>{{usuario.nombre}}</td>
+	  				<td>{{usuario.clave}}</td>
+	  				<td>{{usuario.tipo}}</td>
+
+
+	  				<td><img  class='fotoGrilla' ng-src="imagenes/{{usuario.foto}}" ></td>
+
+	  				<td><button class='btn btn-danger' name='Borrar' ng-click="Borrar(usuario)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+
+	  				<td><button class='btn btn-warning' name='Modificar' ui-sref="modificar({id:usuario.id, correo:usuario.correo, nombre:usuario.nombre , clave:usuario.clave, tipo:usuario.tipo, foto:usuario.foto})"><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+
+	  			</tr>
+
+
+	  			<tr ng-if="resultado.length == 0">
+
+	  				<td></td>							
+	  				<td>No existen usuarios con esos datos..</td>
+	  				<td></td>
+	  				<td></td>
+	  				<td></td>										
+	  				<td></td>
+
+	  			</tr>
+	  		</table>
+	  	</div>				
+	  </div>
+	</div>

@@ -1,0 +1,58 @@
+  <div class="container">
+	  	<div class="page-header">
+	  		<center><h1>{{DatoTest}}</h1> </center>     
+	  	</div>	           
+	  	<div class="CajaInicio animated pulse">
+	  		<h1>Listado de Locales</h1>
+
+	  		 <input type="search" placeholder="Buscar Local.." ng-model="mifiltro" class="buscar"></input>
+	  		<table class='table table-hover table-responsive' id="ListadoLocales">
+	  			<thead>
+	  				<tr>
+
+	  					<th>  Nombre     </th>
+	  					<th ng-if="esVisible.user || esVisible.cliente">  Localidad     </th> <!--  el usuario y el cliente -->
+	  					<th class="centrar">  Direccion     </th>
+	  					<th ng-if="esVisible.adminClient" class="centrar">  Gerente     </th> <!-- cliente y el admin -->
+	  					<th ng-if="esVisible.user">  Ubicación    </th> <!-- solamente el usuario -->
+	  					<th ng-if="esVisible.user">  Realizar encuesta   </th> <!-- solamente el usuario -->
+	  					<th ng-if="esVisible.adminClient" class="centrar">  MODIFICAR        </th>	 <!-- cliente y el admin --> 
+	  					<th ng-if="esVisible.admin" class="centrar">  BORRAR     </th> <!-- admin -->
+<!-- 	  					<th ng-if="esVisibleUser">  MODIFICAR     </th> solamente el usuario -->
+	  				</tr> 
+	  			</thead>
+	  			<tr ng-repeat="local in ListadoLocales | filter:mifiltro as resultado">
+
+
+
+	  				<td>{{local.nombre}}</td>
+	  				<td ng-if="esVisible.user || esVisible.cliente">{{local.localidad}}</td>
+	  				<td class="centrar"> {{local.direccion}}</td>
+	  				<td ng-if="esVisible.adminClient" class="centrar">{{local.gerente}}</td>
+
+	  				<td ng-if="esVisible.user"><button class='btn btn-info' name='Ubicacion' ui-sref="googleMaps">   <span class='glyphicon glyphicon-map-marker'>&nbsp;</span>Ubicación</button></td>
+
+	  				<td ng-if="esVisible.user"><button class='btn btn-primary' name='formulario' ui-sref="encuesta({id:local.id, nombre:local.nombre, localidad:local.localidad, direccion:local.direccion})">   <span class='glyphicon glyphicon-edit'>&nbsp;</span>Encuesta</button></td>
+
+	  				<td ng-if="esVisible.adminClient" class="centrar"><button class='btn btn-warning' name='Modificar' ui-sref="modificarLocal({id:local.id, nombre:local.nombre, localidad:local.localidad, direccion:local.direccion, gerente:local.gerente})"><span class='glyphicon glyphicon-edit'>&nbsp;</span>Modificar</button></td>
+
+	  				<td ng-if="esVisible.admin" class="centrar"><button class='btn btn-danger' name='Borrar' ng-click="Borrar(local.id)">   <span class='glyphicon glyphicon-remove-circle'>&nbsp;</span>Borrar</button></td>
+
+
+	  			</tr>
+
+
+	  			<tr ng-if="resultado.length == 0">
+
+	  				<td></td>							
+	  				<td>No existen productos con esos datos..</td>
+	  				<td></td>
+	  				<td></td>
+	  				<td></td>										
+	  				<td></td>
+
+	  			</tr>
+	  		</table>
+	  	</div>				
+	  </div>
+	</div>

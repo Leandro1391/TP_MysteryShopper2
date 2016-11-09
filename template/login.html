@@ -1,0 +1,48 @@
+	<div class="container">
+		<div class="page-header">
+			<center> <h1>{{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+
+			<div class="row">
+
+			<div class="col-md-5">
+				
+			<!-- imágen -->
+				<img src="imagenes/mystery360.png" class="imgLogin"></h1>
+
+			</div>
+
+			<div class="col-md-7">
+				
+				<h1> Iniciar Sesión </h1>
+
+					<form id="FormIngreso"  enctype="multipart/form-data" >
+					
+						<input type="text"  placeholder="Correo electrónico" id="txtMail" ng-model="correo">
+						<br>
+						<input type="text"  placeholder="Nombre de Usuario" id="txtUser" ng-model="nombre">
+						<br>
+						<input type="password"  placeholder="Contraseña" id="txtPass" ng-model="clave">
+						<br><br>
+						
+						<a class="btn btn-info " name="rellenarComprador" ng-click="cargarUsuario()">Cargar Usuario</a>
+						<a class="btn btn-info " name="rellenarVendedor" ng-click="cargarCliente()">Cargar Cliente</a>
+						<a class="btn btn-info " name="rellenarAdmin" ng-click="cargarAdmin()">Cargar Admin</a>
+						<br><br>
+						<a class="btn btn-success " name="guardar" ng-click="Login()" ><span class="glyphicon glyphicon-check">&nbsp;</span>Iniciar Sesión</a><br><br>
+						
+						<input type="hidden" value="" id="idParaModificar" name="agregar" ng-model="persona.id"/>
+						<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+
+					</form>
+			</div>
+
+				
+
+
+			</div>
+
+			</div>
+			
+	</div>
