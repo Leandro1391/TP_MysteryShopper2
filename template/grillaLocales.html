@@ -30,7 +30,7 @@
 	  				<td class="centrar"> {{local.direccion}}</td>
 	  				<td ng-if="esVisible.adminClient" class="centrar">{{local.gerente}}</td>
 
-	  				<td ng-if="esVisible.user"><button class='btn btn-info' name='Ubicacion' ui-sref="googleMaps">   <span class='glyphicon glyphicon-map-marker'>&nbsp;</span>Ubicación</button></td>
+	  				<td ng-if="esVisible.user"><button class='btn btn-info' name='Ubicacion' ui-sref="googleMaps({id:local.id, nombre:local.nombre, localidad:local.localidad, direccion:local.direccion})">   <span class='glyphicon glyphicon-map-marker'>&nbsp;</span>Ubicación</button></td>
 
 	  				<td ng-if="esVisible.user"><button class='btn btn-primary' name='formulario' ui-sref="encuesta({id:local.id, nombre:local.nombre, localidad:local.localidad, direccion:local.direccion})">   <span class='glyphicon glyphicon-edit'>&nbsp;</span>Encuesta</button></td>
 

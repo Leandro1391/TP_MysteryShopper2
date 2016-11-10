@@ -85,7 +85,7 @@ var app = angular.module('Mystery', ['ngAnimate','ui.router','angularFileUpload'
   })
 
   .state('googleMaps', {
-    url: '/googleMaps',
+    url: '/googleMaps/{id}?:nombre:localidad:direccion',
     views: {
       'principal': {templateUrl: 'template/mapaGoogle.html', controller: 'controlMapa' },
       'menuSuperior': {templateUrl: 'template/menuSuperior.html', controller: 'controlMenuSuperior'}
@@ -242,28 +242,7 @@ app.controller('controlMenuSuperior', function($scope, $http, $auth, $state) {
 
 app.controller('controlMapa', function($scope, Map){
 
-  $scope.place = {};
-    
-    $scope.search = function() {
-        $scope.apiError = false;
-        Map.search($scope.searchPlace)
-        .then(
-            function(res) { // success
-                Map.addMarker(res);
-                $scope.place.name = res.name;
-                $scope.place.lat = res.geometry.location.lat();
-                $scope.place.lng = res.geometry.location.lng();
-            },
-            function(status) { // error
-                $scope.apiError = true;
-                $scope.apiStatus = status;
-            }
-        );
-    }
-    
-    $scope.send = function() {
-        alert($scope.place.name + ' : ' + $scope.place.lat + ', ' + $scope.place.lng);    
-    }
+  console.log("estoy en el controlMap");
     
     Map.init();
 });
@@ -1251,39 +1230,159 @@ app.service('ServicioLocal', function($http){ //ESTO ES PARA LOCALES
 });
 
 
-app.service('Map', function($q) {
+app.service('Map', function($q, FileUploader, $stateParams) {
+
+
+    // function mostrar_objeto(obj){
+    //   for (var propiedad in obj) {
+    //     document.write(propiedad+": "+obj[propiedad] + "<br />")
+    //   }
+    // }
+
+    // mostrar_objeto(navigator.geolocation);
     
     this.init = function() {
-        var options = {
-            center: new google.maps.LatLng(40.7127837, -74.00594130000002),
-            zoom: 13,
-            disableDefaultUI: true    
+
+      uploader = new FileUploader({url: 'PHP/nexoLocal.php'});
+      uploader.queueLimit = 1;
+      id=$stateParams.id;
+      nombre=$stateParams.nombre;
+      localidad=$stateParams.localidad;
+      direccion=$stateParams.direccion;
+
+      lugar = direccion +" , "+ localidad +", Buenos Aires, Argentina";
+
+      console.log("direccion donde tengo que llegar: "+lugar);
+
+      console.log("estoy en el this.init");
+
+      navigator.geolocation.getCurrentPosition(success, error);
+      var divMap = document.getElementById("map");
+
+      function error(){
+        divMap.innerHTML="Hubo un problema al solicitar los datos";
+      }
+
+      function success(respuesta){
+        //mostrar_objeto(respuesta.coords);
+        var lat = respuesta.coords.latitude;
+        var long = respuesta.coords.longitude;
+
+        var myLatLong = new google.maps.LatLng(lat, long);
+
+        var mapOptions = {
+          zoom: 12,
+          center: myLatLong
         }
-        this.map = new google.maps.Map(
-            document.getElementById("map"), options
-        );
-        this.places = new google.maps.places.PlacesService(this.map);
-    }
-    
-    this.search = function(str) {
-        var d = $q.defer();
-        this.places.textSearch({query: str}, function(results, status) {
-            if (status == 'OK') {
-                d.resolve(results[0]);
-            }
-            else d.reject(status);
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+
+        directionsDisplay.setMap(map);
+
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        document.getElementById('mode').addEventListener('change', function() {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
         });
-        return d.promise;
-    }
-    
-    this.addMarker = function(res) {
-        if(this.marker) this.marker.setMap(null);
-        this.marker = new google.maps.Marker({
-            map: this.map,
-            position: res.geometry.location,
-            animation: google.maps.Animation.DROP
-        });
-        this.map.setCenter(res.geometry.location);
+
+        // var serviceDistance = new google.maps.DistanceMatrixService();
+
+        // serviceDistance.getDistanceMatrix(
+        //     {
+        //         origins: [myLatLong],
+        //         destinations: [lugar],
+        //         travelMode: google.maps.TravelMode.DRIVING,
+        //         avoidHighways: false,
+        //         avoidTolls: false
+        //     }, 
+        //     callback
+        // );
+
+        // function callback(response, status) {
+        //     var orig = "";//document.getElementById("orig"),
+        //     var dest = "";//document.getElementById("dest"),
+        //     var distancia = document.getElementById("distancia");
+        //     //distancia.innerHTML = '';
+
+        //     console.log("En el callback"+response);
+
+        //     if(status=="OK") {
+        //         orig.value = response.destinationAddresses[0];
+        //         dest.value = response.originAddresses[0];
+        //         distancia.value = response.rows[0].elements[0].distance.text;
+        //         console.log("distancia: " + response.rows[0].elements[0].distance.text);
+        //     } else {
+        //         alert("Error: " + status);
+        //     }
+        // }
+
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+              var selectedMode = document.getElementById('mode').value;
+              directionsService.route({
+                origin: myLatLong,  // Haight.
+                destination: String(lugar),  // Ocean Beach.
+                // Note that Javascript allows us to access the constant
+                // using square brackets and a string value as its
+                // "property."
+                travelMode: google.maps.TravelMode[selectedMode]
+              }, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                  directionsDisplay.setDirections(response);
+                } else {
+                  window.alert('Directions request failed due to ' + status);
+                }
+              });
+        }
+
+
+
+        // var marker = new google.maps.Marker({
+        //     position: myLatLong,
+        //     label: "A",
+        //     animation: google.maps.Animation.DROP,
+        //     title:"Hello World!"
+        // }); 
+
+
+         // To add the marker to the map, call setMap();
+        // marker.setMap(map);
+
+        // function pinSymbol(color) {
+        // return {
+        // path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+        // fillColor: color,
+        // fillOpacity: 1,
+        // strokeColor: '#000',
+        // strokeWeight: 2,
+        // scale: 1,
+        //   };
+        // }
+
+        // geocoder = new google.maps.Geocoder();
+        // geocoder.geocode({ 'address': direccion +" , "+ localidad +", Buenos Aires, Argentina" }, function(results, status) {
+        //   if (status == google.maps.GeocoderStatus.OK) {
+        //     //map.setCenter(results[0].geometry.location);
+        //     var marker2 = new google.maps.Marker({
+        //       map: map,
+        //       label: "B",
+        //       draggable: true,
+        //       icon: pinSymbol("#00F"),
+        //       size: 10,
+        //       animation: google.maps.Animation.DROP,
+        //       position: results[0].geometry.location
+        //     });
+        //   }
+        // });
+
+        
+        // divMap.innerHTML = lat +","+long;
+        // divMap.innerHTML="Tengo autorización para ver su ubicación";
+
+      } //fin de la funcion success
+
     }
     
 });

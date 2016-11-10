@@ -1,7 +1,17 @@
 
-<div class="alert alert-danger text-center" role="alert" ng-show="apiError">
-        <b>API Error : </b>
-        <span>{{ apiStatus }}</span>
+<div id="floating-panel">
+    <b>Modo de Viaje: </b>
+    <select id="mode">
+      <option value="DRIVING">Manejando</option>
+      <option value="WALKING">Caminando</option>
+      <!-- <option value="BICYCLING">Bicycling</option> -->
+      <option value="TRANSIT">Transporte</option>
+    </select>
     </div>
 
-<div id="map"></div>
+ <!-- <div id="distancia">
+ 	<input type="text" placeholder="Distancia" name="" value="" id="distancia"> 
+
+ 	</div> -->
+
+<div id="map"> Aca va el mapa Google</div>
