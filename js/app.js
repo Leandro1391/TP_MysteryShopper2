@@ -669,6 +669,20 @@ app.controller('controlAltaLocal', function($scope, $http ,$state,  $auth, FileU
 
     // $scope.uploader = new FileUploader({url: 'PHP/nexoLocal.php'});
 
+        $scope.esVisible={
+        admin:false,
+        user:false,
+        cliente:false
+        };
+
+
+    if($auth.getPayload().tipo=="administrador")
+      $scope.esVisible.admin=true;
+    if($auth.getPayload().tipo=="usuario")
+      $scope.esVisible.user=true;
+    if($auth.getPayload().tipo=="cliente")
+      $scope.esVisible.cliente=true;
+
 
           $scope.local={
             nombre:"Farmacity",
@@ -742,6 +756,11 @@ app.controller('controlEncuesta', function($scope, $http ,$state,  $auth, FileUp
     $scope.uploader = new FileUploader({url: 'PHP/nexoLocal.php'});
     $scope.uploader.queueLimit = 1;
 
+    $scope.datos={
+      id: $stateParams.id
+    }
+    
+
     $scope.local={};
     //$scope.local.id=$stateParams.id;
     $scope.local.nombre=$stateParams.nombre;
@@ -765,24 +784,26 @@ app.controller('controlEncuesta', function($scope, $http ,$state,  $auth, FileUp
     $scope.local.fecha= dd+'/'+mm+'/'+yyyy;
 
     var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0!
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
 
-// var yyyy = today.getFullYear();
-// if(dd<10){
-//     dd='0'+dd
-// } 
-// if(mm<10){
-//     mm='0'+mm
-// } 
-// var today = dd+'/'+mm+'/'+yyyy;
-// document.getElementById("DATE").value = today;
+        // var yyyy = today.getFullYear();
+        // if(dd<10){
+        //     dd='0'+dd
+        // } 
+        // if(mm<10){
+        //     mm='0'+mm
+        // } 
+        // var today = dd+'/'+mm+'/'+yyyy;
+        // document.getElementById("DATE").value = today;
 
 
 
           //tengo que traer los datos
 
           $scope.Guardar=function(){
+
+            console.log("borrar :" + $scope.datos.id);
 
             if ($scope.local.puno!=null && $scope.local.pdos!=null && $scope.local.ptres!=null && $scope.local.pcuatro!=null && $scope.local.empleado!=null) 
             {
@@ -804,8 +825,10 @@ var mm = today.getMonth()+1; //January is 0!
 
                     $scope.local.porcentaje = ($scope.incremento/$scope.cantidad)*100;
 
-
+                    ////////////////////////////////////
                     ///////////////////SLIM/////////////
+                    ///////////////////////////////////
+
                     $http.post('Datos/informes',$scope.local)
                                 .then(function(respuesta) {       
                                      //aca se ejetuca si retorno sin errores        
@@ -816,6 +839,18 @@ var mm = today.getMonth()+1; //January is 0!
                                     //aca se ejecuta cuando hay errores
                                     console.log( response);           
                                 });
+
+
+
+                  $http.delete('Datos/locales/'+ $scope.datos.id)
+                      .then(function(respuesta) {      
+                      //aca se ejetuca si retorno sin errores        
+                      console.log(respuesta.data);
+
+                  },function errorCallback(response) {        
+                    //aca se ejecuta cuando hay errores
+                     console.log( response);           
+                  });
 
               }
 

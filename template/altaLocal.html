@@ -9,12 +9,20 @@
 
 			<form id="FormIngreso"  enctype="multipart/form-data" >
 				
-				<input type="text" name="nombre" ng-model="local.nombre" placeholder="ingrese nombre del local" value=""/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+				<input type="text" name="nombre" ng-model="local.nombre" placeholder="ingrese nombre del local" ng-if="esVisible.admin" value=""/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
 
-				<input type="text" name="localidad" ng-model="local.localidad" placeholder="ingrese la localidad" value="" /> 
+				<input type="text" name="localidad" ng-model="local.localidad" placeholder="ingrese la localidad" ng-if="esVisible.admin" value="" /> 
 				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
 
-				<input type="text" name="direccion" ng-model="local.direccion" placeholder="direccion" value="" /> 
+				<input type="text" name="direccion" ng-model="local.direccion" placeholder="direccion" ng-if="esVisible.admin" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="nombre" ng-model="local.nombre" placeholder="ingrese nombre del local" ng-if="esVisible.user" ng-disabled="true" value=""/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="localidad" ng-model="local.localidad" placeholder="ingrese la localidad" ng-if="esVisible.user" ng-disabled="true" value="" /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<input type="text" name="direccion" ng-model="local.direccion" placeholder="direccion" ng-if="esVisible.user" ng-disabled="true" value="" /> 
 				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
 
 				<input type="text" name="gerente" ng-model="local.gerente" placeholder="nombre del gerente" value="" ng-if="esVisible.admin || esVisible.cliente" /> 
