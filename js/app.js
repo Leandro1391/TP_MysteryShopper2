@@ -108,14 +108,6 @@ var app = angular.module('Mystery', ['ngAnimate','ui.router','angularFileUpload'
     }
   })
 
-  // .state('verFormulario', {
-  //   url: '/verFormulario/{id}?:nombre:localidad',
-  //    views: {
-  //     'principal': { templateUrl: 'template/encuesta.html',controller: 'controlVerFormulario' },
-  //     'menuSuperior': {templateUrl: 'template/menuSuperior.html'}
-  //   }
-  // })
-
   .state('grillaLocal', {
     url: '/grillaLocal',
     views: {
@@ -869,41 +861,6 @@ app.controller('controlEncuesta', function($scope, $http ,$state,  $auth, FileUp
 
 app.controller('controlGrafico', function ($scope, FactoryInforme) {
 
-
-  FactoryInforme.mostrarNombre("otro").then(function(respuesta){
-
-  $scope.ListadoInformes=respuesta;
-
-  // $scope.empleado;
-
-
-  console.log($scope.ListadoInformes[0].empleado);
-
-  // angular.forEach($scope.informe in $scope.ListadoInformes)
-  // {
-  //   // console.log($scope.informe);
-  //   console.log($scope.ListadoInformes);
-  // }
-
- 
-  });
-
-  // Sample options for first chart
-                $scope.chartOptions = {
-                    title: {
-                        text: 'Temperature data'
-                    },
-                    xAxis: {
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                    },
-
-                    series: [{
-                        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                    }]
-                };
-
-                // Sample data for pie chart
                 $scope.pieData = [{
                         name: "Microsoft Internet Explorer",
                         y: 56.33
@@ -927,23 +884,68 @@ app.controller('controlGrafico', function ($scope, FactoryInforme) {
                 }]
 
 
-        // Highcharts.chart('container', {
+        FactoryInforme.mostrarNombre("otro").then(function(respuesta){
 
-        //     xAxis: {
-        //         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-        //             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        //     },
-        //     yAxis: {
-        //       title: {
-        //         text: 'porcentaje (%)'
-        //         //categories:[0, 25, 50, 75, 100]
-        //     }
-        // },
+        ListadoInformes=respuesta;
 
-        //     series: [{
-        //         data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-        //     }]
-        // });
+        console.log(ListadoInformes[0].empleado);
+
+        ListadoInformes.forEach(function(item) {
+          empleados = item.empleado;
+          console.log(empleados);
+        
+        })
+
+
+
+  // Sample options for first chart
+
+
+                // $scope.chartOptions = {
+                //     title: {
+                //         text: 'Rendimiento empleados'
+                //     },
+                //     xAxis: {
+                //         categories: [empleados, ',']
+                //     },
+
+                //     series: [{
+                //         data: [porcentajes, ',']
+                //     }]
+                // };
+
+                // Sample data for pie chart
+
+        Highcharts.chart('container', {
+
+          chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Rendimiento de empleados'
+        },
+        subtitle: {
+            text: 'Fuente: MysteryShopper.com'
+        },
+          
+
+            xAxis: {
+
+                categories: [ListadoInformes[0].empleado, ListadoInformes[1].empleado, ListadoInformes[2].empleado, ListadoInformes[3].empleado, ListadoInformes[4].empleado]
+            },
+            yAxis: {
+              title: {
+                text: 'porcentaje (%)'
+                // categories:[0, 25, 50, 75, 100]
+            }
+        },
+
+            series: [{
+                name: 'rendimiento',
+                data: [ListadoInformes[0].porcentaje, ListadoInformes[1].porcentaje, ListadoInformes[2].porcentaje, ListadoInformes[3].porcentaje, ListadoInformes[4].porcentaje]
+            }]
+        });
+      });
   });
 
 
@@ -1135,18 +1137,18 @@ app.controller('controlLogin', function($scope, $http, $auth, $state) {
 
 
 // Directiva para generar chart, pass in chart options
-            app.directive('hcChart', function () {
-                return {
-                    restrict: 'E',
-                    template: '<div></div>',
-                    scope: {
-                        options: '='
-                    },
-                    link: function (scope, element) {
-                        Highcharts.chart(element[0], scope.options);
-                    }
-                };
-            })
+            // app.directive('hcChart', function () {
+            //     return {
+            //         restrict: 'E',
+            //         template: '<div></div>',
+            //         scope: {
+            //             options: '='
+            //         },
+            //         link: function (scope, element) {
+            //             Highcharts.chart(element[0], scope.options);
+            //         }
+            //     };
+            // })
             // Directive for pie charts, pass in title and data only    
             app.directive('hcPieChart', function () {
                 return {
@@ -1262,6 +1264,48 @@ app.service('ServicioLocal', function($http){ //ESTO ES PARA LOCALES
                   };
 
                   //return listado;
+});
+
+
+app.service('Grafico', function(FactoryInforme) {
+
+    this.inicio = function() {
+
+
+        console.log("Estoy en el servicio grafico")
+
+        FactoryInforme.mostrarNombre("otro").then(function(respuesta){
+
+        ListadoInformes=respuesta;
+
+        // console.log(ListadoInformes[0].empleado);
+
+        ListadoInformes.forEach(function(item) {
+          var empleados = item.empleado;
+          console.log(empleados);
+        })
+
+        ListadoInformes.forEach(function(item) {
+          var porcentajes = item.porcentaje;
+          console.log(porcentajes);
+        })
+
+        });
+
+        // array.forEach(function(currentValue,index,arr), thisValue)
+
+
+
+    // angular.forEach($scope.informe in $scope.ListadoInformes)
+    // {
+    //   // console.log($scope.informe);
+    //   console.log($scope.ListadoInformes);
+    // }
+
+ 
+
+  }
+
 });
 
 
