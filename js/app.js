@@ -171,6 +171,10 @@ app.controller('controlMenu', function($scope, $http, $auth, $state) {
 
 
 app.controller('controlMenuSuperior', function($scope, $http, $auth, $state) {
+  
+  if($auth.isAuthenticated())
+  {
+
   $scope.usuario={};
   $scope.usuario.id = $auth.getPayload().id;
   $scope.usuario.tipo=$auth.getPayload().tipo;
@@ -193,8 +197,6 @@ app.controller('controlMenuSuperior', function($scope, $http, $auth, $state) {
   // console.log("Estoy en el menu Superior")
   // console.log($auth.getPayload());
 
-  if($auth.isAuthenticated())
-  {
     //PARA HACER VISIBLES LOS BOTONES DE ACUERDO AL TIPO
 
     // console.log("estoy en el if is Authenticated");
@@ -234,9 +236,16 @@ app.controller('controlMenuSuperior', function($scope, $http, $auth, $state) {
 
 app.controller('controlMapa', function($scope, Map){
 
-  console.log("estoy en el controlMap");
+  if($auth.isAuthenticated())
+  {
+    console.log("estoy en el controlMap");
     
     Map.init();
+  }
+  else{
+    $state.go("login");
+  }
+
 });
 
 
@@ -246,6 +255,8 @@ app.controller('controlMapa', function($scope, Map){
 
 app.controller('controlModificarLocal', function($scope, $http, $state, $auth, FileUploader, $stateParams) {
 
+  if($auth.isAuthenticated())
+  {
   $scope.local={};
   $scope.DatoTest="MODIFICAR LOCAL";
   $scope.uploader = new FileUploader({url: 'PHP/nexoLocal.php'});
@@ -256,6 +267,20 @@ app.controller('controlModificarLocal', function($scope, $http, $state, $auth, F
   $scope.local.direccion=$stateParams.direccion;
   $scope.local.gerente=$stateParams.gerente;
 
+
+  $scope.esVisible={
+      admin:false,
+      user:false,
+      cliente:false
+    }; 
+
+
+    if($auth.getPayload().tipo=="administrador")
+      $scope.esVisible.admin=true;
+    if($auth.getPayload().tipo=="usuario")
+      $scope.esVisible.user=true;
+    if($auth.getPayload().tipo=="cliente")
+      $scope.esVisible.cliente=true;
 
   $scope.uploader.onSuccessItem=function(item, response, status, headers)
   {
@@ -288,9 +313,13 @@ app.controller('controlModificarLocal', function($scope, $http, $state, $auth, F
     console.log( response);           
     });
     
+    }
+
   }
-
-
+  else{
+    $state.go("login");
+  }
+  
 });
 
 
@@ -363,9 +392,12 @@ app.controller('controlGrillaInforme', function($scope, $http, $state, $auth, Fa
 /////////////////////////////////////////////////////////////
 
 
-app.controller('controlModificacion', function($scope, $http, $state, $stateParams, FileUploader)
+app.controller('controlModificacion', function($scope, $http, $state, $stateParams, FileUploader, $auth)
 {
-  $scope.usuario={};
+
+  if($auth.isAuthenticated())
+  {
+      $scope.usuario={};
   $scope.DatoTest="MODIFICAR DATOS";
   $scope.uploader = new FileUploader({url: 'Datos/index.php'});
   $scope.uploader.queueLimit = 1;
@@ -422,39 +454,51 @@ app.controller('controlModificacion', function($scope, $http, $state, $statePara
     }
     $scope.uploader.uploadAll();
   }
+  }
+  else{
+      $state.go("login");
+  }
+  
 });
 
 
 app.controller('controlPerfil', function($scope, $http, $auth, $state, cargadoDeFoto, FileUploader, $stateParams){
 
-  $scope.DatoTest="PERFIL";
+  if($auth.isAuthenticated())
+  {
+      $scope.DatoTest="PERFIL";
 
-  $scope.usuario={};
-  $scope.usuario.id = $auth.getPayload().id;
+      $scope.usuario={};
+      $scope.usuario.id = $auth.getPayload().id;
 
-  //SLIM
+      //SLIM
 
-  $http.get('Datos/usuarios/'+ $scope.usuario.id)
-  .then(function(respuesta) {       
+      $http.get('Datos/usuarios/'+ $scope.usuario.id)
+      .then(function(respuesta) {       
 
-          $scope.usuario = respuesta.data;
-           
+              $scope.usuario = respuesta.data;
+               
 
-        },function errorCallback(response) {
-            $scope.usuario= [];
-            console.log( response);
+            },function errorCallback(response) {
+                $scope.usuario= [];
+                console.log( response);
 
-    });
+        });
 
-  $scope.Logout=function()
-    {
-      $auth.logout()
-      .then(function()
-      {
-        console.log("estoy dentro del logout");
-        $state.go("login");
-      });
-    };
+      $scope.Logout=function()
+        {
+          $auth.logout()
+          .then(function()
+          {
+            console.log("estoy dentro del logout");
+            $state.go("login");
+          });
+        };
+  }else{
+    $state.go("login");
+  }
+
+  
 
 });
 
@@ -463,58 +507,58 @@ app.controller('controlPerfil', function($scope, $http, $auth, $state, cargadoDe
 /////////////////////////////////////////////////////////////
 
 
-app.controller('controlVerFormulario', function($scope, $http, $auth, $state, $stateParams, FileUploader)
-{
-  debugger;
-  $scope.local={};
+// app.controller('controlVerFormulario', function($scope, $http, $auth, $state, $stateParams, FileUploader)
+// {
+//   debugger;
+//   $scope.local={};
 
-  $scope.DatoTest="COMPLETANDO ENCUESTA";
+//   $scope.DatoTest="COMPLETANDO ENCUESTA";
 
-  $scope.uploader = new FileUploader({url: 'PHP/nexoLocal'});
-  $scope.uploader.queueLimit = 1;
-  $scope.local.id=$stateParams.id;
-  $scope.local.nombre=$stateParams.nombre;
-  $scope.local.localidad=$stateParams.localidad;
-  $scope.local.mes=$stateParams.mes;
-  $scope.local.anio=$stateParams.anio;
-  $scope.local.porcentaje=$stateParams.porcentaje;
-  $scope.local.empleado=$stateParams.empleado;
-  $scope.local.puno=$stateParams.puno;
-  $scope.local.pdos=$stateParams.pdos;
-  $scope.local.ptres=$stateParams.ptres;
-  $scope.local.pcuatro=$stateParams.pcuatro;
-
-
+//   $scope.uploader = new FileUploader({url: 'PHP/nexoLocal'});
+//   $scope.uploader.queueLimit = 1;
+//   $scope.local.id=$stateParams.id;
+//   $scope.local.nombre=$stateParams.nombre;
+//   $scope.local.localidad=$stateParams.localidad;
+//   $scope.local.mes=$stateParams.mes;
+//   $scope.local.anio=$stateParams.anio;
+//   $scope.local.porcentaje=$stateParams.porcentaje;
+//   $scope.local.empleado=$stateParams.empleado;
+//   $scope.local.puno=$stateParams.puno;
+//   $scope.local.pdos=$stateParams.pdos;
+//   $scope.local.ptres=$stateParams.ptres;
+//   $scope.local.pcuatro=$stateParams.pcuatro;
 
 
-  $scope.uploader.onSuccessItem=function(item, response, status, headers)
-  {
-    $http.post('PHP/nexoLocal.php', { datos: {accion :"modificar",local:$scope.local}})
-        .then(function(respuesta) 
-        {
-          //aca se ejetuca si retorno sin errores       
-          console.log(respuesta.data);
-          $state.go("grillaLocal");
-        },
-        function errorCallback(response)
-        {
-          //aca se ejecuta cuando hay errores
-          console.log( response);           
-        });
-    console.info("Ya guardé el archivo.", item, response, status, headers);
-  };
 
 
-  $scope.Guardar=function(local)
-  {
-    if($scope.uploader.queue[0].file.name!='pordefecto.png')
-    {
-      var nombreFoto = $scope.uploader.queue[0]._file.name;
-      $scope.local.foto=nombreFoto;
-    }
-    $scope.uploader.uploadAll();
-  }
-});
+//   $scope.uploader.onSuccessItem=function(item, response, status, headers)
+//   {
+//     $http.post('PHP/nexoLocal.php', { datos: {accion :"modificar",local:$scope.local}})
+//         .then(function(respuesta) 
+//         {
+//           //aca se ejetuca si retorno sin errores       
+//           console.log(respuesta.data);
+//           $state.go("grillaLocal");
+//         },
+//         function errorCallback(response)
+//         {
+//           //aca se ejecuta cuando hay errores
+//           console.log( response);           
+//         });
+//     console.info("Ya guardé el archivo.", item, response, status, headers);
+//   };
+
+
+//   $scope.Guardar=function(local)
+//   {
+//     if($scope.uploader.queue[0].file.name!='pordefecto.png')
+//     {
+//       var nombreFoto = $scope.uploader.queue[0]._file.name;
+//       $scope.local.foto=nombreFoto;
+//     }
+//     $scope.uploader.uploadAll();
+//   }
+// });
 
 
 
@@ -524,6 +568,7 @@ app.controller('controlVerFormulario', function($scope, $http, $auth, $state, $s
 
 
 app.controller('controlGrillaLocal', function($scope, $http, $state, $auth, FactoryLocal) {
+
   if($auth.isAuthenticated())
   {
     $scope.DatoTest="GRILLA LOCALES";
@@ -587,8 +632,7 @@ app.controller('controlGrillaLocal', function($scope, $http, $state, $auth, Fact
         },function errorCallback(response) {        
             //aca se ejecuta cuando hay errores
             console.log( response);           
-        });
-
+        })
 
   }
 
@@ -600,51 +644,60 @@ app.controller('controlGrillaLocal', function($scope, $http, $state, $auth, Fact
   //APP Controller USUARIO//
   //////////////////////////
 
-app.controller('controlAltaUsuario', function($scope, $http ,$state, FileUploader, cargadoDeFoto) {
-  $scope.DatoTest="ALTA USUARIO";
+app.controller('controlAltaUsuario', function($scope, $http ,$state, FileUploader, cargadoDeFoto, $auth) {
 
-  $scope.uploader = new FileUploader({url: 'PHP/nexo.php'});
-  $scope.uploader.queueLimit = 1;
+  if($auth.isAuthenticated())
+  {
+        $scope.DatoTest="ALTA USUARIO";
 
-//inicio las variables
-  $scope.usuario={};
-  $scope.usuario.correo= "pepe@pepe.com" ;
-  $scope.usuario.nombre= "pepe" ;
-  $scope.usuario.clave= "9876" ;
-  $scope.usuario.tipo= "usuario" ;
-  $scope.usuario.foto="pordefecto.png";
+        $scope.uploader = new FileUploader({url: 'PHP/nexo.php'});
+        $scope.uploader.queueLimit = 1;
+
+      //inicio las variables
+        $scope.usuario={};
+        $scope.usuario.correo= "pepe@pepe.com" ;
+        $scope.usuario.nombre= "pepe" ;
+        $scope.usuario.clave= "9876" ;
+        $scope.usuario.tipo= "usuario" ;
+        $scope.usuario.foto="pordefecto.png";
+        
+        cargadoDeFoto.CargarFoto($scope.usuario.foto,$scope.uploader);
+       
+
+        $scope.Guardar=function(){
+        console.log($scope.uploader.queue);
+        //debugger;
+        if($scope.uploader.queue[0].file.name!='pordefecto.png')
+        {
+          var nombreFoto = $scope.uploader.queue[0]._file.name;
+          $scope.usuario.foto=nombreFoto;
+        }
+        $scope.uploader.uploadAll();
+          console.log("usuario a guardar:");
+          console.log($scope.usuario);
+        }
+
+         $scope.uploader.onSuccessItem=function(item, response, status, headers)
+        {
+          //alert($scope.persona.foto);
+            $http.post('PHP/nexo.php', { datos: {accion :"insertar",usuario:$scope.usuario}})
+              .then(function(respuesta) {       
+                 //aca se ejetuca si retorno sin errores        
+               console.log(respuesta.data);
+               $state.go("grillaUsuario");
+
+            },function errorCallback(response) {        
+                //aca se ejecuta cuando hay errores
+                console.log( response);           
+              });
+          console.info("Ya guardé el archivo.", item, response, status, headers);
+        };
+        }
+  else{
+        $state.go("login");
+  }
+
   
-  cargadoDeFoto.CargarFoto($scope.usuario.foto,$scope.uploader);
- 
-
-  $scope.Guardar=function(){
-  console.log($scope.uploader.queue);
-  //debugger;
-  if($scope.uploader.queue[0].file.name!='pordefecto.png')
-  {
-    var nombreFoto = $scope.uploader.queue[0]._file.name;
-    $scope.usuario.foto=nombreFoto;
-  }
-  $scope.uploader.uploadAll();
-    console.log("usuario a guardar:");
-    console.log($scope.usuario);
-  }
-
-   $scope.uploader.onSuccessItem=function(item, response, status, headers)
-  {
-    //alert($scope.persona.foto);
-      $http.post('PHP/nexo.php', { datos: {accion :"insertar",usuario:$scope.usuario}})
-        .then(function(respuesta) {       
-           //aca se ejetuca si retorno sin errores        
-         console.log(respuesta.data);
-         $state.go("grillaUsuario");
-
-      },function errorCallback(response) {        
-          //aca se ejecuta cuando hay errores
-          console.log( response);           
-        });
-    console.info("Ya guardé el archivo.", item, response, status, headers);
-  };
 
 });
 
@@ -859,9 +912,11 @@ app.controller('controlEncuesta', function($scope, $http ,$state,  $auth, FileUp
 });
 
 
-app.controller('controlGrafico', function ($scope, FactoryInforme) {
+app.controller('controlGrafico', function ($scope, FactoryInforme, $auth) {
 
-                $scope.pieData = [{
+      if($auth.isAuthenticated())
+      {
+            $scope.pieData = [{
                         name: "Microsoft Internet Explorer",
                         y: 56.33
                     }, {
@@ -946,6 +1001,13 @@ app.controller('controlGrafico', function ($scope, FactoryInforme) {
             }]
         });
       });
+      }
+      else{
+            $state.go("login");
+
+      }
+
+                
   });
 
 
@@ -1001,72 +1063,79 @@ app.controller('controlReporte', function($scope, $http, $auth, $state)
 
 
 
-app.controller('controlGrillaUsuario', function($scope, $http, $location, $state, FactoryUsuario) {
-    $scope.DatoTest="GRILLA USUARIO";
+app.controller('controlGrillaUsuario', function($scope, $http, $location, $state, FactoryUsuario, $auth) {
+
+  if($auth.isAuthenticated())
+  {
+      $scope.DatoTest="GRILLA USUARIO";
 
 
-$scope.guardar = function(usuario){
+          $scope.guardar = function(usuario){
 
-console.log( JSON.stringify(usuario));
-  $state.go("modificarUsuario, {usuario:" + JSON.stringify(usuario)  + "}");
-}
+          console.log( JSON.stringify(usuario));
+            $state.go("modificarUsuario, {usuario:" + JSON.stringify(usuario)  + "}");
+          }
 
-FactoryUsuario.mostrarNombre("otro").then(function(respuesta){
+          FactoryUsuario.mostrarNombre("otro").then(function(respuesta){
 
-$scope.ListadoUsuarios=respuesta;
+          $scope.ListadoUsuarios=respuesta;
 
- 
-});
+           
+          });
 
 
-  // $http.get('Datos/usuarios')
-  // .then(function(respuesta) {       
+            // $http.get('Datos/usuarios')
+            // .then(function(respuesta) {       
 
-  //         $scope.ListadoUsuarioa = respuesta.data;
-  //          console.log(respuesta.data);
+            //         $scope.ListadoUsuarioa = respuesta.data;
+            //          console.log(respuesta.data);
 
-  //       },function errorCallback(response) {
-  //           $scope.ListadoUsuarioa= [];
-  //           console.log( response);
+            //       },function errorCallback(response) {
+            //           $scope.ListadoUsuarioa= [];
+            //           console.log( response);
 
-  //     });
- 
-  // $http.get('PHP/nexo.php', { params: {accion :"traer"}})
-  // .then(function(respuesta) {       
+            //     });
+           
+            // $http.get('PHP/nexo.php', { params: {accion :"traer"}})
+            // .then(function(respuesta) {       
 
-  //        $scope.ListadoUsuarios = respuesta.data.listado;
-  //        console.log(respuesta.data);
+            //        $scope.ListadoUsuarios = respuesta.data.listado;
+            //        console.log(respuesta.data);
 
-  //   },function errorCallback(response) {
-  //        $scope.ListadoUsuarios= [];
-  //       console.log( response);     
-  //  });
+            //   },function errorCallback(response) {
+            //        $scope.ListadoUsuarios= [];
+            //       console.log( response);     
+            //  });
 
-  $scope.Borrar=function(usuario){
-    if(confirm("¿Desea eliminar el usuario seleccionado?"))
-    //console.log("borrar"+usuario);
-    $http.post("PHP/nexo.php",{datos:{accion :"borrar",usuario:usuario}},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-         .then(function(respuesta) {       
-                 //aca se ejetuca si retorno sin errores        
-                 console.log(respuesta.data);
-                    $http.get('PHP/nexo.php', { params: {accion :"traer"}})
-                    .then(function(respuesta) {       
-
-                           $scope.ListadoUsuarios = respuesta.data.listado;
+            $scope.Borrar=function(usuario){
+              if(confirm("¿Desea eliminar el usuario seleccionado?"))
+              //console.log("borrar"+usuario);
+              $http.post("PHP/nexo.php",{datos:{accion :"borrar",usuario:usuario}},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
+                   .then(function(respuesta) {       
+                           //aca se ejetuca si retorno sin errores        
                            console.log(respuesta.data);
+                              $http.get('PHP/nexo.php', { params: {accion :"traer"}})
+                              .then(function(respuesta) {       
 
-                      },function errorCallback(response) {
-                           $scope.ListadoUsuarios= [];
-                          console.log( response);
-                          
-                     });
+                                     $scope.ListadoUsuarios = respuesta.data.listado;
+                                     console.log(respuesta.data);
 
-          },function errorCallback(response) {        
-              //aca se ejecuta cuando hay errores
-              console.log( response);           
-      });
-  }// $scope.Borrar
+                                },function errorCallback(response) {
+                                     $scope.ListadoUsuarios= [];
+                                    console.log( response);
+                                    
+                               });
 
+                    },function errorCallback(response) {        
+                        //aca se ejecuta cuando hay errores
+                        console.log( response);           
+                });
+            }// $scope.Borrar
+
+            }
+  else
+    $state.go("login");
+    
 });                                     
 
 
